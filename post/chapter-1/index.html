@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Generative adverserial networks | Sri harsha Maddirala</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.72.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="Generative adverserial networks" />
+<meta property="og:description" content="Simple GAN application to produce facial images." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/post/chapter-1/" />
+<meta property="article:published_time" content="2020-06-20T11:00:59-04:00" />
+<meta property="article:modified_time" content="2020-06-20T11:00:59-04:00" />
+<meta itemprop="name" content="Generative adverserial networks">
+<meta itemprop="description" content="Simple GAN application to produce facial images.">
+<meta itemprop="datePublished" content="2020-06-20T11:00:59-04:00" />
+<meta itemprop="dateModified" content="2020-06-20T11:00:59-04:00" />
+<meta itemprop="wordCount" content="712">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Generative adverserial networks"/>
+<meta name="twitter:description" content="Simple GAN application to produce facial images."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Sri harsha Maddirala
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title=" page">
+              
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Articles page">
+              Articles
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+
+
+
+<a href="https://www.linkedin.com/in/sri-harsha-maddirala-b59231195/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/Sri-harsha99" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        ARTICLES
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://example.com/post/chapter-1/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://example.com/post/chapter-1/&amp;text=Generative%20adverserial%20networks" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://example.com/post/chapter-1/&amp;title=Generative%20adverserial%20networks" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Generative adverserial networks</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-06-20T11:00:59-04:00">June 20, 2020</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><figure>
+    <img src="/images/gan_celeb.png"/> 
+</figure>
+
+<p>Above images are computer generated based on celebA dataset by using GAN. This has been generated by Tero Karras at Nvidia.
+<a href="https://research.nvidia.com/sites/default/files/pubs/2017-10_Progressive-Growing-of/karras2018iclr-paper.pdf" title="Published Paper">Published Paper</a>.</p>
+<p>In this article, we will use GAN, a network of Generator and Discriminator to generate facial images by using Tensorflow 2.0 and Keras libraries. Dataset used for generation of images is Faces94. <a href="https://cswww.essex.ac.uk/mv/allfaces/faces94.html" title="Link to dataset">Link to dataset</a>. This article is adapted from Tensorflow GAN documentation.</p>
+<p>First, we load necessary libraries and dataset.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+<span style="color:#f92672">from</span> tensorflow.keras.layers <span style="color:#f92672">import</span> Conv2D,Dense,Conv2DTranspose,AveragePooling2D,BatchNormalization,LeakyReLU,Reshape,Dropout,Flatten
+<span style="color:#f92672">import</span> sklearn
+<span style="color:#f92672">import</span> datetime
+<span style="color:#f92672">from</span> sklearn.datasets <span style="color:#f92672">import</span> load_files
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> io <span style="color:#f92672">import</span> BytesIO
+<span style="color:#f92672">import</span> pickle
+<span style="color:#f92672">from</span> tensorflow.summary <span style="color:#f92672">import</span> SummaryWriter
+<span style="color:#f92672">%</span>load_ext tensorboard
+<span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image  
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">BUFFER_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">30000</span>
+BATCH_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span>
+
+data <span style="color:#f92672">=</span> (data <span style="color:#f92672">-</span> <span style="color:#ae81ff">127.5</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">127.5</span>
+train_dataset <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset<span style="color:#f92672">.</span>from_tensor_slices(data)<span style="color:#f92672">.</span>shuffle(BUFFER_SIZE)<span style="color:#f92672">.</span>batch(BATCH_SIZE)
+</code></pre></div><p>Now, We build our generator network. Here I have used Transposed convolution layer, but simple Dense layer can do the job.
+I have also used, leaky relu for activation layer except for the end output where tanh as been used.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generator_builder</span>():
+    model <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>Sequential()
+    model<span style="color:#f92672">.</span>add(Dense(<span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#ae81ff">512</span>,use_bias<span style="color:#f92672">=</span>False,input_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">100</span>,)))
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+    model<span style="color:#f92672">.</span>add(Reshape((<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">512</span>)))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">512</span>)
+
+    model<span style="color:#f92672">.</span>add(Conv2DTranspose(<span style="color:#ae81ff">256</span>,(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, use_bias<span style="color:#f92672">=</span>False))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">256</span>)
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+
+    model<span style="color:#f92672">.</span>add(Conv2DTranspose(<span style="color:#ae81ff">128</span>, (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, use_bias<span style="color:#f92672">=</span>False))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">128</span>)
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+
+    model<span style="color:#f92672">.</span>add(Conv2DTranspose(<span style="color:#ae81ff">64</span>, (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, use_bias<span style="color:#f92672">=</span>False))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">64</span>)
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+
+    model<span style="color:#f92672">.</span>add(Conv2DTranspose(<span style="color:#ae81ff">32</span>, (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, use_bias<span style="color:#f92672">=</span>False))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">32</span>)
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+
+    model<span style="color:#f92672">.</span>add(Conv2DTranspose(<span style="color:#ae81ff">3</span>, (<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>), strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>), padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>, use_bias<span style="color:#f92672">=</span>False, activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tanh&#39;</span>))
+    <span style="color:#66d9ef">assert</span> model<span style="color:#f92672">.</span>output_shape <span style="color:#f92672">==</span> (None, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">3</span>)
+
+    <span style="color:#66d9ef">return</span> model
+</code></pre></div><p>Now, without any training of generator, if we ask the model to generate an image,
+<figure class="center w-30">
+    <img src="/images/1.png"/> 
+</figure>
+</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">generator <span style="color:#f92672">=</span> generator_builder()
+
+noise <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100</span>])
+generated_image <span style="color:#f92672">=</span> generator(noise, training<span style="color:#f92672">=</span>False)
+
+plt<span style="color:#f92672">.</span>imshow(generated_image[<span style="color:#ae81ff">0</span>, :, :, <span style="color:#ae81ff">0</span>])
+generator<span style="color:#f92672">.</span>summary()
+</code></pre></div><p>Now, coming to discriminator, it is as if any other image classification network. Here I chose, leaky relu as activation and also considered dropout. At the end, Dense layer is with one node, because we have to classify generated image as fake or real.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">discriminator_builder</span>():
+    model <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>Sequential()
+    model<span style="color:#f92672">.</span>add(Conv2D(<span style="color:#ae81ff">64</span>,(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>),strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>),padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>,name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TER&#34;</span>,input_shape<span style="color:#f92672">=</span>[<span style="color:#ae81ff">64</span>,<span style="color:#ae81ff">64</span>,<span style="color:#ae81ff">3</span>]))
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+    model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.2</span>))
+    
+    model<span style="color:#f92672">.</span>add(Conv2D(<span style="color:#ae81ff">128</span>,(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>),strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>),padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>,name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2&#34;</span>))
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+    model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.2</span>))
+    
+    model<span style="color:#f92672">.</span>add(Conv2D(<span style="color:#ae81ff">256</span>,(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>),strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>),padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>,name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3&#34;</span>))
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+    model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.2</span>))
+
+    model<span style="color:#f92672">.</span>add(Conv2D(<span style="color:#ae81ff">512</span>,(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>),strides<span style="color:#f92672">=</span>(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>),padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;same&#39;</span>,name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span>))
+    model<span style="color:#f92672">.</span>add(BatchNormalization())
+    model<span style="color:#f92672">.</span>add(LeakyReLU())
+    model<span style="color:#f92672">.</span>add(Dropout(<span style="color:#ae81ff">0.2</span>))
+    
+    model<span style="color:#f92672">.</span>add(Flatten())
+    model<span style="color:#f92672">.</span>add(Dense(<span style="color:#ae81ff">1</span>))
+
+    <span style="color:#66d9ef">return</span> model
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">discriminator <span style="color:#f92672">=</span> discriminator_builder()
+decision <span style="color:#f92672">=</span> discriminator(generated_image)
+<span style="color:#66d9ef">print</span> (decision)
+
+discriminator<span style="color:#f92672">.</span>summary()
+</code></pre></div><p>Here Binary cross entropy has been used because only two classes are present (Fake or Real). When using Tensorflow cross entropy, we don&rsquo;t have to do one-hot encoding.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cross_entropy <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>losses<span style="color:#f92672">.</span>BinaryCrossentropy(from_logits<span style="color:#f92672">=</span>True)
+</code></pre></div><p>Discriminator simultaneously trains on real images and also generated images. Here real output loss is compared with 1&rsquo;s and fake output is compared with 0&rsquo;s.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">discriminator_loss</span>(real_output, fake_output):
+    real_loss <span style="color:#f92672">=</span> cross_entropy(tf<span style="color:#f92672">.</span>ones_like(real_output), real_output)
+    fake_loss <span style="color:#f92672">=</span> cross_entropy(tf<span style="color:#f92672">.</span>zeros_like(fake_output), fake_output)
+    total_loss <span style="color:#f92672">=</span> real_loss <span style="color:#f92672">+</span> fake_loss
+    <span style="color:#66d9ef">return</span> total_loss
+</code></pre></div><p>Here generator function is to trick Discriminator by making it classify fake image as real. So, we naturally make fake image as close as possible to real image.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generator_loss</span>(fake_output):
+    <span style="color:#66d9ef">return</span> cross_entropy(tf<span style="color:#f92672">.</span>ones_like(fake_output), fake_output)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">generator_optimizer <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>optimizers<span style="color:#f92672">.</span>Adam(<span style="color:#ae81ff">1e-4</span>)
+discriminator_optimizer <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>optimizers<span style="color:#f92672">.</span>Adam(<span style="color:#ae81ff">1e-4</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">generator_loss_hist <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>Mean(<span style="color:#e6db74">&#39;gen_loss&#39;</span>, dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32)
+discriminator_loss_hist <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>keras<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>Mean(<span style="color:#e6db74">&#39;disc_loss&#39;</span>, dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32)
+</code></pre></div><p>Images are generated and loss is calculated. generator_loss_hist calculates mean of loss on that batch. Then we get grads for variables and apply adam optimizer.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@tf.function</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train_step</span>(images):
+    noise <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal([BATCH_SIZE, noise_dim])
+
+    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>GradientTape() <span style="color:#66d9ef">as</span> gen_tape, tf<span style="color:#f92672">.</span>GradientTape() <span style="color:#66d9ef">as</span> disc_tape:
+      generated_images <span style="color:#f92672">=</span> generator(noise, training<span style="color:#f92672">=</span>True)
+
+      real_output <span style="color:#f92672">=</span> discriminator(images, training<span style="color:#f92672">=</span>True)
+      fake_output <span style="color:#f92672">=</span> discriminator(generated_images, training<span style="color:#f92672">=</span>True)
+
+      gen_loss <span style="color:#f92672">=</span> generator_loss(fake_output)
+      disc_loss <span style="color:#f92672">=</span> discriminator_loss(real_output, fake_output)
+
+      generator_loss_hist(gen_loss)
+      discriminator_loss_hist(disc_loss)
+
+    gradients_of_generator <span style="color:#f92672">=</span> gen_tape<span style="color:#f92672">.</span>gradient(gen_loss, generator<span style="color:#f92672">.</span>trainable_variables)
+    gradients_of_discriminator <span style="color:#f92672">=</span> disc_tape<span style="color:#f92672">.</span>gradient(disc_loss, discriminator<span style="color:#f92672">.</span>trainable_variables)
+
+    generator_optimizer<span style="color:#f92672">.</span>apply_gradients(zip(gradients_of_generator, generator<span style="color:#f92672">.</span>trainable_variables))
+    discriminator_optimizer<span style="color:#f92672">.</span>apply_gradients(zip(gradients_of_discriminator, discriminator<span style="color:#f92672">.</span>trainable_variables))
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+noise_dim <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+num_examples <span style="color:#f92672">=</span> <span style="color:#ae81ff">36</span>
+</code></pre></div><p>This is the main train function, calling train_step function and storing losses. We are storing generated images for 50 loops each.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">listy_gen <span style="color:#f92672">=</span> []
+listy_disc <span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(dataset, epochs):
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(epochs):
+    <span style="color:#75715e">#start = time.time()</span>
+
+        <span style="color:#66d9ef">print</span>(epoch)
+        <span style="color:#66d9ef">for</span> image_batch <span style="color:#f92672">in</span> dataset:
+            train_step(image_batch)
+    
+        listy_gen<span style="color:#f92672">.</span>append(generator_loss_hist<span style="color:#f92672">.</span>result())
+        listy_disc<span style="color:#f92672">.</span>append(discriminator_loss_hist<span style="color:#f92672">.</span>result())
+
+        <span style="color:#66d9ef">if</span> epoch <span style="color:#f92672">%</span> <span style="color:#ae81ff">50</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            generate_and_save_images(generator,epoch,seed)
+
+        generator_loss_hist<span style="color:#f92672">.</span>reset_states()
+        discriminator_loss_hist<span style="color:#f92672">.</span>reset_states()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generate_and_save_images</span>(model, epoch, test_input):
+
+  predictions <span style="color:#f92672">=</span> model(test_input, training<span style="color:#f92672">=</span>False)
+
+  fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">6</span>))
+
+  <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(predictions<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+      plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">6</span>, i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+      plt<span style="color:#f92672">.</span>imshow(predictions[i, :, :, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">127.5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">127.5</span>)
+      plt<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)
+
+  plt<span style="color:#f92672">.</span>savefig(f<span style="color:#e6db74">&#39;image_at_epoch_{epoch}.png&#39;</span>)
+  plt<span style="color:#f92672">.</span>show()
+  plt<span style="color:#f92672">.</span>close(<span style="color:#e6db74">&#39;all&#39;</span>)
+  plt<span style="color:#f92672">.</span>clf()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train(train_dataset, <span style="color:#ae81ff">200</span>)
+</code></pre></div><p>Result can be improved by using auto-encoders, training for longer and also with changing the rate at which a generator learns when compared to discriminator.
+<figure>
+    <img src="/images/all.png"/> 
+</figure>
+</p>
+<p>This function plots loss of both generator and discriminator.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Generator and Discriminator Loss During Training&#34;</span>)
+plt<span style="color:#f92672">.</span>plot(listy_gen,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Generator&#34;</span>)
+plt<span style="color:#f92672">.</span>plot(listy_disc,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Discriminator&#34;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;Iterations&#34;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;Loss&#34;</span>)
+plt<span style="color:#f92672">.</span>legend()
+plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;graph.png&#39;</span>)
+plt<span style="color:#f92672">.</span>show()
+plt<span style="color:#f92672">.</span>close(<span style="color:#e6db74">&#39;all&#39;</span>)
+plt<span style="color:#f92672">.</span>clf()
+</code></pre></div><figure>
+    <img src="/images/output_18_0.png"/> 
+</figure>
+
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://example.com" >
+    &copy;  Sri harsha Maddirala 2020 
+  </a>
+    <div>
+
+
+
+
+
+
+
+<a href="https://www.linkedin.com/in/sri-harsha-maddirala-b59231195/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/Sri-harsha99" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
