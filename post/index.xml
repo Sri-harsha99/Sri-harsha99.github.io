@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Floyd&#39;s Hare and Tortoise</title>
+      <link>https://sri-harsha99.github.io/post/chapter-4/</link>
+      <pubDate>Wed, 01 Jul 2020 11:00:59 -0400</pubDate>
+      
+      <guid>https://sri-harsha99.github.io/post/chapter-4/</guid>
+      <description>Two weeks before, I have been asked to find duplicate number in an array where numbers in an array belong to [0,sizeofarray-1] in an interview. Method I used is to sort the array and check each number with previous number in the array. If both are equal, then that is the duplicate number. This method uses O(nlogn) time complexity because of time complexity. Interview didn&amp;rsquo;t go well. Later, I came across this question in leetcode and found that there is another approach that can be done in O(n) time complexity.</description>
+    </item>
+    
+    <item>
       <title>Generative adverserial networks</title>
       <link>https://sri-harsha99.github.io/post/chapter-1/</link>
       <pubDate>Sat, 20 Jun 2020 11:00:59 -0400</pubDate>
