@@ -1,0 +1,486 @@
+<div *ngIf="type == 'home'">
+    <div class="heading" fxLayout="row" fxLayoutAlign="center">
+        <span>Tweet Analyzer : Using Key word</span>
+    </div>
+    <div class="padding-left">
+        App allows us to find the people's sentiment regarding something by parsing the tweets based on the key term. Only tweets from last 7 days can be parsed as the app is using twitter API with only essential access. We can also choose how many tweets to analyze (Default is 500). It can be increased, but request will take longer duration. As I only have essential level access to Twitter API, the app can only parse tweets from last 7 days.
+    </div>
+    <div class="margin-top-7" fxLayoutAlign="center enter">
+        <div class="margin-left-3" fxLayout="row">
+            <div fxLayout="row">
+                <div>
+                    <mat-form-field class="input-key" appearance="outline">
+                        <mat-label>Key word*</mat-label>
+                        <input matInput placeholder="Ex: Queen Elizabeth" [(ngModel)]="inputReddit">
+                    </mat-form-field>
+                    <div fxLayout="row" class="pos-rel" fxLayoutAlign="space-around center">
+                        <div class="filter">
+                            Filter by Date:
+                        </div>
+                        <mat-form-field class="date margin-left-date" appearance="outline">
+                            <mat-label>From</mat-label>
+                            <input matInput [min]="this.minDate" [max]="this.maxDate" [matDatepicker]="from" [(ngModel)]="fromDate">
+                            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+                            <mat-datepicker #from></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="date margin-left-date" appearance="outline">
+                            <mat-label>To</mat-label>
+                            <input matInput [min]="fromDate ? fromDate : this.minDate" [max]="this.maxDate" [matDatepicker]="to" [(ngModel)]="toDate">
+                            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+                            <mat-datepicker #to></mat-datepicker>
+                        </mat-form-field>
+                        <mat-divider class="mat-divide" [vertical]="true"></mat-divider>
+                        <div fxLayout="column" fxLayoutAlign="start">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Maximum Tweets to parse</mat-label>
+                                <input matInput type="number" min="1" max="5000" [(ngModel)]="maximum" (ngModelChange)="maxChanged($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="margin-left-5" fxLayout="column" fxLayoutAlign="center center">
+                <div>
+                    <button mat-raised-button color="primary" (click)="maximum<=5000 ? getData() : countError = true">Find</button>
+                </div>
+            </div>
+            <div [ngClass]="isCall ? 'show-class' : 'hide-class'" class="sc-margin-left-2" fxLayoutAlign="center center">
+                <sa-spinner-dotted [enabled]="true" [color]="'#000000'"></sa-spinner-dotted>
+            </div>
+        </div>
+    </div>
+  <div class="heading color-darkorchid" fxLayout="row" fxLayoutAlign="center">
+      <h1>
+        Attention : Due to recent changes in Twitter API, the app cannot search for tweets. To search tweets based on keyword, one needs to have <b>basic</b> tier of twitter API and that costs $100 per month. I made this project so that I can show my skills in ML and full stack development, which can help in my job search. So, I'm not going to pay API fees. Below is a video of how the app used to work. 
+      </h1>
+    </div>
+    <app-mini-player></app-mini-player>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <h1 class="heading"></h1>
+      <div class="padding-left-2"><h2>TweetSearch</h2></div>
+        <img src="../../assets/flow-d.png">
+        <div class="margin-top-2 font-15">
+            <ul>
+                <li>The classification of tweets into postive and negative sentiments is done by using a logistic regression model trained on 1.6 million tweet dataset.</li>
+                <li>Later, the model has been imported into a flask app that is now running using Azure functions.</li>
+                <li>A nodeJS function is used to pull the data from the twitter API, and push it to flask function. Flask function returns with predictions.</li>
+                <li>Tweets are segragated and the data is shown using pie chart on the client browser using Angular.</li>
+              </ul>  
+        </div>
+    </div>
+    <div *ngIf="done && !isCall" fxLayoutAlign="center enter">
+        <canvas baseChart
+            [type]="'pie'"
+            [datasets]="pieChartDatasets"
+            [labels]="pieChartLabels"
+            [options]="pieChartOptions"
+            [legend]="pieChartLegend">
+        </canvas>
+    </div>
+    <div fxLayout="row" *ngIf="done && !isCall" fxLayoutAlign="center center" class="width-100 margin-top-2">
+        <mat-accordion class="width-80">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Tweets classified positively
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>
+                <mat-paginator [length]="posNumber"
+                    [pageSize]="50"
+                    (page)="changePage($event,'positive')"
+                    aria-label="Select page">
+                </mat-paginator>
+                <div class="margin-bottom-1" *ngFor="let tweet of currPositiveTweets">
+                    {{ tweet }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Tweets classified negatively
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>
+                <mat-paginator [length]="negNumber"
+                    [pageSize]="50"
+                    (page)="changePage($event,'negative')"
+                    aria-label="Select page">
+                </mat-paginator>
+                <div class="margin-bottom-1" *ngFor="let tweet of currNegativeTweets">
+                    {{ tweet }}
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+    </div>
+</div>
+<div fxLayout="column" fxLayoutAlign="center center" *ngIf="type == 'diagram'">
+  <div class="padding-left-2"><h2>TweetSearch</h2></div>
+    <img src="../../assets/flow-d.png">
+    <div class="margin-top-2 font-15">
+        <ul>
+            <li>The classification of tweets into postive and negative sentiments is done by using a logistic regression model trained on 1.6 million tweet dataset.</li>
+            <li>Later, the model has been imported into a flask app that is now running using Azure functions.</li>
+            <li>A nodeJS function is used to pull the data from the twitter API, and push it to flask function. Flask function returns with predictions.</li>
+            <li>Tweets are segragated and the data is shown using pie chart on the client browser using Angular.</li>
+          </ul>  
+    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center" class="width-100 margin-top-2 margin-bottom-1" *ngIf="type == 'me'">
+    <!-- <div fxLayout="column">
+        <div>
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-subtitle>Computer Science Graduate Student</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLyout="row" fxLayoutAlign="start center">
+                        <div>
+                            <img src="../../assets/harsha.jpg" class="img-fluid" alt="avatar">
+                        </div>
+                        <div fxLayout="column">
+                            <b>Harsha Maddirala</b>
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <div class="margin-right-2cm"><mat-icon>email</mat-icon></div>
+                                <div><a href="mailto:sri.harsha@outlook.in">sri.harsha@outlook.in</a></div>
+                            </div>
+                            <button mat-raised-button color="primary" (click)="downloadResume()">Download Resume</button>
+                            <button mat-raised-button color="primary" (click)="viewResume()">View Resume</button>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                    </div>
+                  <p>This card has divider and indeterminate progress as footer</p>
+                  <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-footer>
+                </mat-card-footer>
+              </mat-card>
+        </div>
+        <div class="margin-top-5">
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-subtitle>About Me</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>I'm currently pursuing Masters in Computer science at University of Texas at Dallas. I have previously worked as Software Engineer at ShopConnect.live for one year.</p>
+                  <mat-divider></mat-divider>
+                </mat-card-content>
+            </mat-card>
+            <img class="width-22" src="../../assets/harsha.jpg">
+        </div>
+    </div>
+    <div fxLayout="column" class="width-45"> 
+
+        <ul>
+            <li><a href="https://github.com/Sri-harsha99">My Github</a></li>
+            <li><a href="https://www.linkedin.com/in/sriharshamaddirala/">My LinkedIn</a></li>
+        </ul> 
+    </div> -->
+    <div class="margin-right-2" fxLayout="column">
+      <div class="margin-bot-3">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div fxLayout="row">
+              <div>
+                <img class="pro-img" src="../../assets/harsha.jpg">
+              </div>
+              <div>
+                <mat-card-title>Harsha Maddirala</mat-card-title>
+                <span>Graduate Student</span><br>
+                <span>Dallas, US</span><br>
+                <div class="link-css" fxLayout="row" fxLayoutAlign="start center">
+                  <button mat-mini-fab class="white"><a href="mailto:vxm220023@utdallas.edu"><img class="mail-icon" src="../assets/mail.svg"></a></button>
+                  <a href="mailto:vxm220023@utdallas.edu">vxm220023@utdallas.edu</a>
+                </div>
+                <div class="link-css" fxLayout="row" fxLayoutAlign="start center">
+                  <button mat-mini-fab class="white" (click)="openLink('https://github.com/Sri-harsha99')"><img class="mail-icon" src="assets/image.svg"></button>
+                  <button mat-mini-fab class="white" (click)="openLink('https://www.linkedin.com/in/sriharshamaddirala/')"><img class="mail-icon" src="assets/link.svg"></button>
+                </div>
+                <button mat-raised-button (click)="downloadResume()">Resume <mat-icon>cloud_download</mat-icon></button>
+              </div>
+            </div>
+          </mat-card-header>
+        </mat-card>
+      </div>
+      <div>
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>About Me</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="font-17">
+            <p>I'm a graduate CS student at UTD.</p>
+            <p>I will be graduating in May 2024, and I am currently looking for summer internships.</p>
+            <p>In my free time, I love to play games and read history books.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="timeline">
+        <mzd-timeline class="change-pad" [alternateSide]="false" [firstContentSide]="'right'">
+          <mzd-icon><fa-icon class="icon-time" [icon]="faGraduationCap"></fa-icon></mzd-icon>
+          <mzd-timeline-content class="add-pad">
+            <div class="head">Master of Science in Computer Science (Aug 2022 - May 2024)</div>
+            <div class="italic bot-mar-1">The University of Texas at Dallas</div>
+            <div>CGPA: 3.8/4.0</div>
+            <div>Relevant Courses: Statistical Methods for Data Science, Computer Vision, Machine Learning, Artificial Intelligence.</div>
+          </mzd-timeline-content>
+          
+          <mzd-icon><fa-icon class="icon-time" [icon]="faBriefcase"></fa-icon></mzd-icon>
+          <mzd-timeline-content class="add-pad">
+            <div class="head">Software Developer (July 2021 - July 2022) </div>
+            <div class="italic bot-mar-1">Software Developer Intern (Aug 2020 - Dec 2020)</div>
+            <div class="italic bot-mar-1">ShopConnect.live, Banglore, India</div>
+            <div>Worked on developing a video-call based e-commerce application. Developed the Application using Angular, NodeJS, MongoDB, Springboot, and AWS. Applied ML techniques to optimize the workflows. Integrated Instagram Graph API to publish and moderate content on the user’s Instagram profile in less than 5 seconds. Improved the overall performance by reducing the latency of more than 20 APIs.
+              
+              </div>
+        </mzd-timeline-content>
+        <mzd-icon><fa-icon class="icon-time" [icon]="faGraduationCap"></fa-icon></mzd-icon>
+        <mzd-timeline-content class="add-pad">
+          <div class="head">Bachelor of Technology in Computer Science (Aug 2017 - May 2021)</div>
+          <div class="italic bot-mar-1">The Indian Institute of Information Technology, Sri City, India</div>
+        
+          Relevant Courses: Deep Learning, Natural Language Processing, High Performance Computing, Data Analytics, Computer Vision, Machine Learning.
+        </mzd-timeline-content>
+        
+        </mzd-timeline>
+      </div>
+    </div><br>
+</div>
+<div *ngIf="type == 'me'">
+  <mat-card class="skill-card">
+    <mat-card-header>
+      <mat-card-title class="bot-mar-1">Projects</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><img class="news-img" src="assets/summarize.png"></div>
+            <div class="head-left">Summarize - A Google Workspace Addon
+          <div fxLayout="row wrap" class="head-bot">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>Google Cloud Platform</mat-chip>
+              <mat-chip>JavaScript</mat-chip>
+              <mat-chip>Cohere</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        </div>
+        <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/Summarize')">Code</button>
+        </div>
+        <div>
+          Built a publicly available add-on service that integrates Google Docs, and Gmail with Cohere API.
+Deployed using Google Cloud Platform, Generate, and summarize the content on docs and draft AI-generated replies on
+Gmail with one click.
+        </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><i class="fa-brands fa-twitter fa-4x"></i></div>
+            <div class="head-left">TweetSearch
+              <div fxLayout="row wrap" class="head-bot">
+                <mat-chip-list aria-label="Fish selection">
+                  <mat-chip>Azure</mat-chip>
+                  <mat-chip>Twitter API</mat-chip>
+                  <mat-chip>Scikit-Learn</mat-chip>
+                  <mat-chip>Flask</mat-chip>
+                  <mat-chip>Angular</mat-chip>
+                </mat-chip-list>
+              </div>
+            </div>
+          </div>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button (click)="changeView()">Demo</button>
+            <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/Twitter-server')">Code</button>
+          </div>
+          <div>
+            Trained a machine learning model to classify tweets as positive or negative using 1.6M tweets. Pulled the latest tweets containing a keyword using Twitter 2.0 API and sent the data to Azure Fuction which hosts the model as a web service. Deployed a Flask app to create a REST API to interact with the model and used Angular to create a web app to interact with the API.
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><img class="news-img" src="assets/news.jpeg"></div>
+            <div class="head-left">Curate News
+          <div fxLayout="row wrap" class="head-bot">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>NLP</mat-chip>
+              <mat-chip>NLTK</mat-chip>
+              <mat-chip>MySQL</mat-chip>
+              <mat-chip>Web Crawler</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        </div>
+        <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://sri-harsha99.github.io/post/chapter-3/')">About</button>
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/360-degree-view-of-news')">Code</button>
+        </div>
+        <div>
+          Information retrieval project, where NLP is used to find how a particular news is portrayed by different newspaper mediums. Scraped the articles from 4 major news outlets and used NLTK module for tokenization stored the corpus in MySQL DB. Applied various NLP techniques to find the similarity between the articles.
+        </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><img class="news-img" src="assets/download.jpg"></div>
+            <div class="head-left">Orphanage Management System
+          <div fxLayout="row wrap" class="head-bot">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>Meta Graph API</mat-chip>
+              <mat-chip>Django</mat-chip>
+              <mat-chip>MySQL</mat-chip>
+              <mat-chip>RESTful API</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        </div>
+        <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/Orphanage-management-system')">Code</button>
+        </div>
+        <div>
+          A medium where orphanages and individual donors can interact. Integrated Paypal so that donars can send donations. Used Meta Graph API to embed orphanage's posts from Facebook. Done using Django as web-framework and MySQL as database.
+        </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><img class="news-img" src="assets/out.jpg"></div>
+            <div class="head-left">GAN
+          <div fxLayout="row wrap" class="head-bot">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>TensorFlow</mat-chip>
+              <mat-chip>Python</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        </div>
+        <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://sri-harsha99.github.io/post/chapter-1/')">About</button>
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://colab.research.google.com/drive/1VWoGGWx_G4I-EKejThpggesRo9M8RqOq?usp=sharing')">Demo</button>
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/GAN')">Code</button>
+        </div>
+        <div>
+          Worked on a Generative Adversarial Network model to generate fake human faces. Used Tensorflow to build the model and used a Faces94 dataset for human faces. <a href="https://cmp.felk.cvut.cz/~spacelib/faces/faces94.html">Link</a>
+        </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="start start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center"><img class="news-img" src="assets/aus.jpg"></div>
+            <div class="head-left">EDA on Austrailian Weather Data
+          <div fxLayout="row wrap" class="head-bot">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip>Scikit-learn</mat-chip>
+              <mat-chip>Seaborn</mat-chip>
+              <mat-chip>Data Anaysis</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        </div>
+        <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://colab.research.google.com/drive/1CK43w6U8vj9HrwZ5vTPrGj0Btp8cb90O?usp=sharing')">Demo</button>
+          <button class="skill-but blue" mat-raised-button (click)="openLink('https://github.com/Sri-harsha99/Australian-Weather-EDA')">Code</button>
+        </div>
+        <div>
+          Applied EDA on Austrailian weather data to find the correlation between the weather and the rainfall. Used Seaborn and Scikit-learn to visualize the data and find the correlation.
+        </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="skill-card">
+    <mat-card-header>
+      <mat-card-title class="bot-mar-1">Skills</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayoutAlign="space-around start">
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-code icon-align"></i></div>
+            <div>Languages</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">Python</button>
+            <button class="skill-but" mat-stroked-button color="primary">Java</button>
+            <button class="skill-but" mat-stroked-button color="primary">Go</button>
+            <button class="skill-but" mat-stroked-button color="primary">C++</button>
+            <button class="skill-but" mat-stroked-button color="primary">JavaScript</button>
+            <button class="skill-but" mat-stroked-button color="primary">TypeScript</button>
+            <button class="skill-but" mat-stroked-button color="primary">SQL</button>
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-brain icon-align"></i></div>
+            <div>Machine Learning</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">TensorFlow</button>
+            <button class="skill-but" mat-stroked-button color="primary">PyTorch</button>
+            <button class="skill-but" mat-stroked-button color="primary">Keras</button>
+            <button class="skill-but" mat-stroked-button color="primary">Scikit-Learn</button>
+            <button class="skill-but" mat-stroked-button color="primary">NLTK</button>
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-brands fa-html5 icon-align"></i></div>
+            <div>Front-End</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">Angular</button>
+            <button class="skill-but" mat-stroked-button color="primary">ReactJS</button>
+            <button class="skill-but" mat-stroked-button color="primary">Flutter</button>
+            <button class="skill-but" mat-stroked-button color="primary">HTML</button>
+            <button class="skill-but" mat-stroked-button color="primary">CSS</button>
+            <button class="skill-but" mat-stroked-button color="primary">Bootstrap</button>
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-lock icon-align"></i></div>
+            <div>Back-End</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">NodeJS</button>
+            <button class="skill-but" mat-stroked-button color="primary">Springboot</button>
+            <button class="skill-but" mat-stroked-button color="primary">MongoDB</button>
+            <button class="skill-but" mat-stroked-button color="primary">MySQL</button>
+            <button class="skill-but" mat-stroked-button color="primary">Django</button>
+            <button class="skill-but" mat-stroked-button color="primary">Flask</button>
+            <button class="skill-but" mat-stroked-button color="primary">Docker</button>
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-database icon-align"></i></div>
+            <div>Data Anaysis</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">Numpy</button>
+            <button class="skill-but" mat-stroked-button color="primary">Pandas</button>
+            <button class="skill-but" mat-stroked-button color="primary">MATLAB</button>
+            <button class="skill-but" mat-stroked-button color="primary">R</button>
+          </div>
+        </div>
+        <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
+          <div class="head" fxLayout="row" fxLayoutAlign="start center">
+            <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-tasks icon-align"></i></div>
+            <div>Methodologies</div>
+          </div>
+          <div fxLayout="row wrap" class="skill-mar">
+            <button class="skill-but" mat-stroked-button color="primary">Agile</button>
+            <button class="skill-but" mat-stroked-button color="primary">Scrum</button>
+            <button class="skill-but" mat-stroked-button color="primary">Kanban</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+

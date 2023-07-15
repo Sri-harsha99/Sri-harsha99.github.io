@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Page Not Found</title>
+  <script>
+    // Redirect to index.html for proper Angular routing
+    var path = window.location.href.replace(window.location.origin + '/', '');
+    window.location.href = '/docs/' + path;
+  </script>
+</head>
+<body>
+  <p>Page Not Found</p>
+</body>
+</html>
