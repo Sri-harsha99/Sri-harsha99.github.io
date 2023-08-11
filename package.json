@@ -24,17 +24,14 @@
     "@fortawesome/angular-fontawesome": "^0.11.1",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@tensorflow/tfjs": "^3.6.0",
-    "chart.js": "^3.9.1",
     "font-awesome": "^4.7.0",
-    "ng2-charts": "^4.0.1",
     "ngx-material-timepicker": "^5.5.3",
     "ngx-mzd-timeline": "^1.0.3",
     "rxjs": "~7.5.0",
     "spinners-angular": "^0.0.5",
     "string-tokeniser": "^1.0.5",
+    "three": "^0.155.0",
     "tslib": "^2.3.0",
-    "twitter-api-sdk": "^1.1.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

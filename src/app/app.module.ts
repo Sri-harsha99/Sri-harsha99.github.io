@@ -29,7 +29,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { NgChartsModule } from 'ng2-charts';
 import { MatSliderModule } from "@angular/material/slider";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,16 +43,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MzdTimelineModule } from 'ngx-mzd-timeline';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MiniPlayerComponent } from './mini-player/mini-player.component';
+import { TypingEffectDirective } from './typing-effect.directive';
+import { TypingAnimationComponent } from './typing-animation/typing-animation.component';
+import { ModelViewerComponent } from './model-viewer/model-viewer.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MiniPlayerComponent
+    MiniPlayerComponent,
+    TypingEffectDirective,
+    TypingAnimationComponent,
+    ModelViewerComponent
   ],
   imports: [
     BrowserModule,
-    NgChartsModule,
     AppRoutingModule,
     FontAwesomeModule,
     MatChipsModule,

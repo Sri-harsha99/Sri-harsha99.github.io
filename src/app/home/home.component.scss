@@ -4,6 +4,160 @@
 .date{
     width: 12vw;
 }
+.main-back{
+  background-color: #171717;
+  height: 140vh;
+  width: 100% !important;
+}
+
+.link-bar{
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.margin-left-1{
+  margin-left: 1rem;
+}
+
+.size-logo-link{
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 1rem;
+}
+
+.main-text{
+  font: 24px/32px Source Code Pro,monospace !important;
+  width: 45vw;
+  z-index: 100;
+  margin-top: 40vh;
+  margin-left: 15vw;
+  color: white;
+}
+
+.landing-page {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-mint{
+  background-color: mintcream !important;
+}
+
+.white-spot {
+  width: 100px;
+  height: 100px;
+  background-color: mintcream;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: width 1s ease-out, height 1s ease-out;
+}
+
+.size-logo{
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+
+p {
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  overflow: hidden;
+  display: inline-block; /* Ensures the cursor is on the same line as the text */
+}
+
+.cursor {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 0.5em; /* Adjust the cursor width as needed */
+  height: 1em; /* Adjust the cursor height as needed */
+  background-color: #000; /* Adjust the cursor color as needed */
+  margin-left: 3px; /* Adjust the cursor position as needed */
+  animation: blink 0.75s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+#target{
+  position:relative;
+  overflow:hidden;
+  font-size:30px;
+  text-align:center;
+  font-family:sans-serif;
+}
+#target>div{
+  animation: autoscroll 3000s linear;
+}
+html:after{
+  content:'';
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(top,rgba(0,0,0,1),rgba(0,0,0,0) 100%);
+  background:linear-gradient(to bottom,rgba(0,0,0,1),rgba(0,0,0,0) 100%);
+  pointer-events:none;
+}
+
+.body-text{
+  position:relative;
+  transform-origin:50% 100%;
+  transform:perspective(300px) rotateX(20deg);
+
+}
+.credit-main{
+  color:yellow;
+  background:black;
+  height: 60vh;
+}
+@keyframes autoscroll{
+  to{
+      margin-top:-50000px;
+  }    
+}
+
+.scroll-text{
+  font-size: 40px;
+  line-height: 45px;
+  letter-spacing: 5px;
+}
+
+// @keyframes blink-caret {
+//   from, to {
+//     border-color: transparent;
+//   }
+//   50% {
+//     border-color: white; /* Change the color as needed */
+//   }
+// }
+.font-4rem{
+  font-size: 30px;
+}
+.font-3rem{
+  font-size: 20px;
+}
 .margin-left-date{
     margin-left: 0.5vw;
 }
@@ -39,12 +193,15 @@
   width: 5rem;
   height: 5rem;
 }
+.click-point{
+  cursor: pointer;
+}
 .margin-right-2cm{
   margin-right: 1rem;
 }
 .heading{
   font-weight: 500;
-  font-size: 18px;
+  font-size: 24px;
   padding: 20px;
 }
 .margin-top-5{
@@ -56,6 +213,115 @@
   margin-top: 1.3rem !important;
   z-index: 12;
 }
+.white-spot{
+  position: absolute;
+  margin-top: 25vh;
+  margin-left: 50vw;
+}
+.star-wars-container {
+  
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+}
+
+.crawl {
+  animation: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  color: yellow;
+  font-size: 18px;
+  text-align: center;
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  perspective: 500px;
+  transition: transform 1s ease;
+}
+
+.mat-toolbar {
+  background: #f5f5f5;
+  color: rgba(0,0,0,.87)
+}
+
+.mat-toolbar.mat-primary {
+  background: #00e676;
+  color: rgba(0,0,0,.87)
+}
+
+.mat-toolbar.mat-accent {
+  background: #424242;
+  color: #fff
+}
+
+.mat-toolbar.mat-warn {
+  background: #f44336;
+  color: #fff
+}
+
+.mat-toolbar .mat-focused .mat-form-field-ripple,.mat-toolbar .mat-form-field-ripple,.mat-toolbar .mat-form-field-underline {
+  background-color: currentColor
+}
+
+.mat-toolbar .mat-focused .mat-form-field-label,.mat-toolbar .mat-form-field-label,.mat-toolbar .mat-form-field.mat-focused .mat-select-arrow,.mat-toolbar .mat-select-arrow,.mat-toolbar .mat-select-value {
+  color: white
+}
+
+.mat-toolbar .mat-input-element {
+  caret-color: currentColor
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button{
+  color: white;
+  background-color: #171717;
+  font-family: "Source Code Pro, monospace" !important;
+  padding-right: 3rem;
+  font-size: 15px;
+}
+.margin-right-1{
+  margin-right: 0.5rem;
+}
+
+.mat-toolbar-multiple-rows {
+  min-height: 64px
+}
+
+.mat-toolbar-row,.mat-toolbar-single-row {
+  height: 64px
+}
+
+
+.crawl-animated {
+  animation: crawl-animation 60s linear infinite;
+}
+
+@keyframes crawl-animation {
+  0% {
+    transform: rotateX(0deg) translateY(100%);
+  }
+  100% {
+    transform: rotateX(45deg) translateY(-100%);
+  }
+}
+
+.padding-top-4{
+  padding-top: 1rem;
+}
+
+.new-3d-model{
+  width: 40vw;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
 .margin-top-7{
   margin-top: 6vh;
 }
@@ -113,7 +379,11 @@
   font-size: 17px;
 }
 .example-card{
-  max-width: 460px;
+  max-width: 70vw;
+  background-color: mintcream;
+}
+.margin-top-10{
+  margin-top: 10vh;
 }
 .link-css{
   text-decoration: none;
@@ -159,7 +429,11 @@
   font-size: 18px;
   margin-bottom: 0.25rem;
 }
+.margin-top-20vh{
+  margin-top: 30vh;
+}
 .skill-card{
+  background-color: mintcream;
   width: 95%;
   margin-left: 2rem;
   margin-bottom: 3rem;

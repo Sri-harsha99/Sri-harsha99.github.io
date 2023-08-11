@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable({
@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 export class HomeService {
   
   type='me';
+  run = new EventEmitter<string>();
   nodeURL = 'http://localhost:3000/';
   constructor(private http: HttpClient,) { }
 
@@ -21,5 +22,12 @@ export class HomeService {
     httpParams = httpParams.set("max", data.max);
     httpParams = httpParams.set("Content-Type", 'application/json');
     return this.http.get<any>(this.nodeURL, {params:httpParams});
+  }
+
+  runAfter(){
+    this.type = 'after';
+    setTimeout(() => {
+      this.type = 'me';
+    }, 100);
   }
 }

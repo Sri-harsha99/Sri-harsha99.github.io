@@ -1,0 +1,17 @@
+.cursor {
+    display: inline-block;
+    width: 0.5em; /* Adjust the cursor width as needed */
+    height: 1em; /* Adjust the cursor height as needed */
+    background-color: #171717; /* Adjust the cursor color as needed */
+    animation: blink 0.75s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  

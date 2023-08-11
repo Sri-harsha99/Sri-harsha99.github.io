@@ -2,7 +2,7 @@
     <div class="heading" fxLayout="row" fxLayoutAlign="center">
         <span>Tweet Analyzer : Using Key word</span>
     </div>
-    <div class="padding-left">
+    <div class="padding-left font-17">
         App allows us to find the people's sentiment regarding something by parsing the tweets based on the key term. Only tweets from last 7 days can be parsed as the app is using twitter API with only essential access. We can also choose how many tweets to analyze (Default is 500). It can be increased, but request will take longer duration. As I only have essential level access to Twitter API, the app can only parse tweets from last 7 days.
     </div>
     <div class="margin-top-7" fxLayoutAlign="center enter">
@@ -51,7 +51,7 @@
     </div>
   <div class="heading color-darkorchid" fxLayout="row" fxLayoutAlign="center">
       <h1>
-        Attention : Due to recent changes in Twitter API, the app cannot search for tweets. To search tweets based on keyword, one needs to have <b>basic</b> tier of twitter API and that costs $100 per month. I made this project so that I can show my skills in ML and full stack development, which can help in my job search. Below is a video of how the app used to work from Feb 2023. Video has domain <b>https://victorious-tree-0ee7a2a10.1.azurestaticapps.net/</b>. It is my azure static app. It also hosts same site.  
+        Attention : Due to recent changes in Twitter API, the app cannot search for tweets. To search tweets based on keyword, one needs to have <b>basic</b> tier of twitter API and that costs $100 per month. I made this project so that I can show my skills in ML and full stack development, which can help in my job search. So, I'm not going to pay API fees. Below is a video of how the app used to work. 
       </h1>
     </div>
     <app-mini-player></app-mini-player>
@@ -116,6 +116,9 @@
             </mat-expansion-panel>
           </mat-accordion>
     </div>
+    <div class="main-back">
+
+    </div>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center" *ngIf="type == 'diagram'">
   <div class="padding-left-2"><h2>TweetSearch</h2></div>
@@ -129,92 +132,84 @@
           </ul>  
     </div>
 </div>
-<div fxLayout="row" fxLayoutAlign="center center" class="width-100 margin-top-2 margin-bottom-1" *ngIf="type == 'me'">
-    <!-- <div fxLayout="column">
-        <div>
-            <mat-card class="example-card">
-                <mat-card-header>
-                  <mat-card-subtitle>Computer Science Graduate Student</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                    <div fxLyout="row" fxLayoutAlign="start center">
-                        <div>
-                            <img src="../../assets/harsha.jpg" class="img-fluid" alt="avatar">
-                        </div>
-                        <div fxLayout="column">
-                            <b>Harsha Maddirala</b>
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <div class="margin-right-2cm"><mat-icon>email</mat-icon></div>
-                                <div><a href="mailto:sri.harsha@outlook.in">sri.harsha@outlook.in</a></div>
-                            </div>
-                            <button mat-raised-button color="primary" (click)="downloadResume()">Download Resume</button>
-                            <button mat-raised-button color="primary" (click)="viewResume()">View Resume</button>
-                        </div>
-                    </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                    </div>
-                  <p>This card has divider and indeterminate progress as footer</p>
-                  <mat-divider></mat-divider>
-                </mat-card-content>
-                <mat-card-footer>
-                </mat-card-footer>
-              </mat-card>
+<div fxLayout="row" fxLayoutAlign="center center" class="width-100 main-back" *ngIf="type == 'me'">
+    <div class="main-back">
+      <div class="link-bar" fxLayout="row" fxLayoutAlign="end center">
+        <img src="../assets/github-mark-white.svg" (click)="link('github')" class="size-logo click-point">
+        <img src="../assets/linke.png" (click)="link('linkedin')" class="size-logo-link margin-left-1 click-point">
+      </div>
+      <div class="padding-top-4">
+        <mat-toolbar-row>
+          <div fxlayout="row wrap" fxlayoutalign="center center" fxflex="1 1 auto" style="flex-flow: wrap; box-sizing: border-box; display: flex; place-content: center; align-items: center; flex: 1 1 auto;">
+            <button mat-button="" aria-label="About button" class="mat-focus-indicator dark-icon mat-button mat-button-base" (click)="scrollToSection(1)">
+              <span class="mat-button-wrapper">
+                <mat-icon role="img" class="mat-icon notranslate icon-space material-icons mat-icon-no-color margin-right-1" aria-hidden="true" data-mat-icon-type="font">account_circle</mat-icon>
+                <span _ngcontent-jve-c72="" fxshow.xs="false">About</span></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span></button>
+            
+                <button mat-button="" aria-label="Work button" class="mat-focus-indicator dark-icon mat-button mat-button-base"><span class="mat-button-wrapper" (click)="scrollToSection(2)">
+                  <mat-icon role="img" class="mat-icon notranslate icon-space material-icons mat-icon-no-color margin-right-1" aria-hidden="true" data-mat-icon-type="font">timeline</mat-icon>
+                  <span fxshow.xs="false">Projects</span></span><span matripple="" class="mat-ripple mat-button-ripple"></span>
+                  <span class="mat-button-focus-overlay"></span>
+                </button>
+                <button mat-button="" aria-label="Skills button" class="mat-focus-indicator dark-icon mat-button mat-button-base" (click)="scrollToSection(3)">
+              <span class="mat-button-wrapper">
+                <mat-icon role="img" class="mat-icon notranslate icon-space material-icons mat-icon-no-color margin-right-1" aria-hidden="true" data-mat-icon-type="font">engineering</mat-icon>
+                <span fxshow.xs="false">Skills</span></span>
+                <span matripple="" class="mat-ripple mat-button-ripple"></span>
+                <span class="mat-button-focus-overlay"></span>
+            </button>
+            <button mat-button="" aria-label="Blogs button" class="mat-focus-indicator dark-icon mat-button mat-button-base" (click)="downloadResume()"><span class="mat-button-wrapper">
+              <mat-icon role="img" class="mat-icon notranslate icon-space material-icons mat-icon-no-color margin-right-1" aria-hidden="true" data-mat-icon-type="font">article</mat-icon><span fxshow.xs="false">Resume</span></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>
+            </button>
+            <button mat-button="" aria-label="Blogs button" class="mat-focus-indicator dark-icon mat-button mat-button-base" (click)="homeService.type = 'home'"><span class="mat-button-wrapper">
+              <i class="fa-brands fa-twitter mat-icon notranslate icon-space material-icons mat-icon-no-color margin-right-1" style="color: #ffffff;"></i><span fxshow.xs="false">TweetSearch Project</span></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>
+            </button>
+          </div>
+        </mat-toolbar-row>
+      </div>
+      <div fxLayout="row">
+        <div class="main-text">
+          <div class="font-4rem">
+          <app-typing-animation [textToType]="textToType1" [showCursor]="showCursor1" (animationDone)="onAnimationDone($event)"></app-typing-animation><br>
         </div>
-        <div class="margin-top-5">
-            <mat-card class="example-card">
-                <mat-card-header>
-                  <mat-card-subtitle>About Me</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>I'm currently pursuing Masters in Computer science at University of Texas at Dallas. I have previously worked as Software Engineer at ShopConnect.live for one year.</p>
-                  <mat-divider></mat-divider>
-                </mat-card-content>
-            </mat-card>
-            <img class="width-22" src="../../assets/harsha.jpg">
-        </div>
-    </div>
-    <div fxLayout="column" class="width-45"> 
-
-        <ul>
-            <li><a href="https://github.com/Sri-harsha99">My Github</a></li>
-            <li><a href="https://www.linkedin.com/in/sriharshamaddirala/">My LinkedIn</a></li>
-        </ul> 
-    </div> -->
-    <div class="margin-right-2" fxLayout="column">
-      <div class="margin-bot-3">
-        <mat-card class="example-card">
-          <mat-card-header>
-            <div fxLayout="row">
-              <div>
-                <img class="pro-img" src="../../assets/harsha.jpg">
-              </div>
-              <div>
-                <mat-card-title>Harsha Maddirala</mat-card-title>
-                <span>Graduate Student</span><br>
-                <span>Dallas, US</span><br>
-                <div class="link-css" fxLayout="row" fxLayoutAlign="start center">
-                  <button mat-mini-fab class="white"><a href="mailto:vxm220023@utdallas.edu"><img class="mail-icon" src="../assets/mail.svg"></a></button>
-                  <a href="mailto:vxm220023@utdallas.edu">vxm220023@utdallas.edu</a>
-                </div>
-                <div class="link-css" fxLayout="row" fxLayoutAlign="start center">
-                  <button mat-mini-fab class="white" (click)="openLink('https://github.com/Sri-harsha99')"><img class="mail-icon" src="assets/image.svg"></button>
-                  <button mat-mini-fab class="white" (click)="openLink('https://www.linkedin.com/in/sriharshamaddirala/')"><img class="mail-icon" src="assets/link.svg"></button>
-                </div>
-                <button mat-raised-button (click)="downloadResume()">Resume <mat-icon>cloud_download</mat-icon></button>
-              </div>
-            </div>
-          </mat-card-header>
-        </mat-card>
+          <ng-container *ngIf="animationDone">
+            <app-typing-animation [textToType]="textToType2" [showCursor]="true"></app-typing-animation>
+          </ng-container>
+          </div>
+        <div class="new-3d-model">
+          <app-model-viewer></app-model-viewer>
+      </div>
+      
       </div>
       <div>
+        <div class="white-spot"></div>
+      </div>
+    </div>
+</div>
+<!-- <div class="credit-main" *ngIf="type == 'me'">
+  <div class="body-text">
+    <div id="target"><div>
+      <div class="scroll-text">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam eos velit dolore dolor perspiciatis illum assumenda ullam sint incidunt ad officiis quidem doloremque omnis ipsa tenetur odit ipsam consectetur sapiente! Sint enim neque omnis hic sed. Voluptas ea recusandae facilis mollitia in impedit minima placeat nesciunt repellat non neque dolorum. Laborum numquam reprehenderit eum adipisci assumenda delectus id dicta perspiciatis placeat quas nobis sit vero expedita saepe veniam asperiores dignissimos aut voluptates minima doloribus esse eius deleniti! Beatae atque at voluptas delectus aliquam ducimus consequatur necessitatibus repudiandae sint possimus repellat deleniti accusamus culpa enim saepe. Ducimus sint expedita soluta incidunt et fuga odio aliquam facere natus quisquam veniam adipisci necessitatibus impedit excepturi qui dicta omnis beatae dolor atque quia cupiditate sed earum reprehenderit. Esse laudantium sed suscipit pariatur dolores obcaecati nemo eaque a totam corporis est tempora incidunt voluptate nostrum laborum natus illum nesciunt commodi harum repud
+    iandae nihil itaque recusandae odit tempore temporibus minima illo ipsum soluta vel quidem! M
+      </div>
+      </div></div>
+  </div>
+</div> -->
+<div #targetSection1 *ngIf="type == 'me'" class="back-mint">
+  <mat-card class="skill-card margin-top-20vh">
+    <mat-card-header>
+      <mat-card-title class="bot-mar-1">About Me</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+  <div fxLayout="row" class="margin-top-10">
+    <div class="margin-right-2" fxLayout="column">
+      <div>
         <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>About Me</mat-card-title>
-          </mat-card-header>
           <mat-card-content class="font-17">
             <p>I'm a graduate CS student at UTD.</p>
-            <p>I will be graduating in May 2024, and I am currently looking for summer internships.</p>
-            <p>In my free time, I love to play games and read history books.</p>
+            <p>I will be graduating in May 2024, and I am currently looking for Full-Time roles.</p>
+            <p>In my free time, I love to play Strategy and FPS games and love reading history books.</p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -250,8 +245,10 @@
         </mzd-timeline>
       </div>
     </div><br>
-</div>
-<div *ngIf="type == 'me'">
+  </div>
+  </mat-card-content>
+</mat-card>
+<div #targetSection2>
   <mat-card class="skill-card">
     <mat-card-header>
       <mat-card-title class="bot-mar-1">Projects</mat-card-title>
@@ -391,6 +388,8 @@ Gmail with one click.
       </div>
     </mat-card-content>
   </mat-card>
+</div>
+<div #targetSection3>
   <mat-card class="skill-card">
     <mat-card-header>
       <mat-card-title class="bot-mar-1">Skills</mat-card-title>
@@ -402,14 +401,13 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-code icon-align"></i></div>
             <div>Languages</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">Python</button>
-            <button class="skill-but" mat-stroked-button color="primary">Java</button>
-            <button class="skill-but" mat-stroked-button color="primary">Go</button>
-            <button class="skill-but" mat-stroked-button color="primary">C++</button>
-            <button class="skill-but" mat-stroked-button color="primary">JavaScript</button>
-            <button class="skill-but" mat-stroked-button color="primary">TypeScript</button>
-            <button class="skill-but" mat-stroked-button color="primary">SQL</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>Python</button>
+            <button class="skill-but blue" mat-raised-button>Java</button>
+            <button class="skill-but blue" mat-raised-button>C++</button>
+            <button class="skill-but blue" mat-raised-button>JavaScript</button>
+            <button class="skill-but blue" mat-raised-button>TypeScript</button>
+            <button class="skill-but blue" mat-raised-button>SQL</button>
           </div>
         </div>
         <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
@@ -417,12 +415,12 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-brain icon-align"></i></div>
             <div>Machine Learning</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">TensorFlow</button>
-            <button class="skill-but" mat-stroked-button color="primary">PyTorch</button>
-            <button class="skill-but" mat-stroked-button color="primary">Keras</button>
-            <button class="skill-but" mat-stroked-button color="primary">Scikit-Learn</button>
-            <button class="skill-but" mat-stroked-button color="primary">NLTK</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>TensorFlow</button>
+            <button class="skill-but blue" mat-raised-button>PyTorch</button>
+            <button class="skill-but blue" mat-raised-button>Keras</button>
+            <button class="skill-but blue" mat-raised-button>Scikit-Learn</button>
+            <button class="skill-but blue" mat-raised-button>NLTK</button>
           </div>
         </div>
         <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
@@ -430,13 +428,12 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-brands fa-html5 icon-align"></i></div>
             <div>Front-End</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">Angular</button>
-            <button class="skill-but" mat-stroked-button color="primary">ReactJS</button>
-            <button class="skill-but" mat-stroked-button color="primary">Flutter</button>
-            <button class="skill-but" mat-stroked-button color="primary">HTML</button>
-            <button class="skill-but" mat-stroked-button color="primary">CSS</button>
-            <button class="skill-but" mat-stroked-button color="primary">Bootstrap</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>Angular</button>
+            <button class="skill-but blue" mat-raised-button>ReactJS</button>
+            <button class="skill-but blue" mat-raised-button>HTML</button>
+            <button class="skill-but blue" mat-raised-button>CSS</button>
+            <button class="skill-but blue" mat-raised-button>Bootstrap</button>
           </div>
         </div>
         <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
@@ -444,14 +441,13 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-lock icon-align"></i></div>
             <div>Back-End</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">NodeJS</button>
-            <button class="skill-but" mat-stroked-button color="primary">Springboot</button>
-            <button class="skill-but" mat-stroked-button color="primary">MongoDB</button>
-            <button class="skill-but" mat-stroked-button color="primary">MySQL</button>
-            <button class="skill-but" mat-stroked-button color="primary">Django</button>
-            <button class="skill-but" mat-stroked-button color="primary">Flask</button>
-            <button class="skill-but" mat-stroked-button color="primary">Docker</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>NodeJS</button>
+            <button class="skill-but blue" mat-raised-button>Spring Boot</button>
+            <button class="skill-but blue" mat-raised-button>MongoDB</button>
+            <button class="skill-but blue" mat-raised-button>Flask</button>
+            <button class="skill-but blue" mat-raised-button>Django</button>
+            <button class="skill-but blue" mat-raised-button>Docker</button>
           </div>
         </div>
         <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
@@ -459,11 +455,10 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fa-solid fa-database icon-align"></i></div>
             <div>Data Anaysis</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">Numpy</button>
-            <button class="skill-but" mat-stroked-button color="primary">Pandas</button>
-            <button class="skill-but" mat-stroked-button color="primary">MATLAB</button>
-            <button class="skill-but" mat-stroked-button color="primary">R</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>Numpy</button>
+            <button class="skill-but blue" mat-raised-button>Pandas</button>
+            <button class="skill-but blue" mat-raised-button>MATLAB</button>
           </div>
         </div>
         <div fxLayout="column" class="margin-skill" fxLayoutAlign="center start">
@@ -471,15 +466,16 @@ Gmail with one click.
             <div class="back-icon" fxLayout="row" fxLayoutAlign="center center"><i class="fas fa-tasks icon-align"></i></div>
             <div>Methodologies</div>
           </div>
-          <div fxLayout="row wrap" class="skill-mar">
-            <button class="skill-but" mat-stroked-button color="primary">Agile</button>
-            <button class="skill-but" mat-stroked-button color="primary">Scrum</button>
-            <button class="skill-but" mat-stroked-button color="primary">Kanban</button>
+          <div class="proj-action" fxLayout="row" fxLayoutAlign="center center">
+            <button class="skill-but blue" mat-raised-button>Agile</button>
+            <button class="skill-but blue" mat-raised-button>Scrum</button>
+            <button class="skill-but blue" mat-raised-button>Kanban</button>
           </div>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
+</div>
 
 </div>
 

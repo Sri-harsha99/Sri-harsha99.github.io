@@ -1,10 +1,10 @@
-<p>
+<p *ngIf="homeService.type === 'home'">
   <mat-toolbar class="main-toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div>
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
-      <span (click)="homeService.type = 'me'" class="margin-left-4 click-point">Portfolio</span>
+      <span (click)="homeService.type = 'me';homeService.runAfter()" class="margin-left-4 click-point">Portfolio</span>
       <span (click)="homeService.type = 'home'" class="margin-left-4 click-point">Search Tweets</span>
       <!-- <span class="margin-left-4">Intresting Findings</span> -->
       <!-- <span (click)="homeService.type = 'diagram'" class="margin-left-4 click-point">How it works</span> -->
@@ -15,4 +15,6 @@
   </div>
 </mat-toolbar>
 </p>
-<app-home [type]="homeService.type"></app-home>
+<ngContainer *ngIf="homeService.type == 'me' || homeService.type == 'home'">
+  <app-home [type]="homeService.type"></app-home>
+</ngContainer>

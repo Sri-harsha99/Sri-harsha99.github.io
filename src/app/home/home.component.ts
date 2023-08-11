@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import {
   HttpBackend,
   HttpClient,
@@ -6,15 +6,10 @@ import {
   HttpParams,
 } from "@angular/common/http";
 import { HomeService } from '../home.service';
-import * as tf from '@tensorflow/tfjs';
-import words from '../../assets/word_dict.json';
-import { ChartOptions } from 'chart.js';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { any } from '@tensorflow/tfjs';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,10 +22,14 @@ export class HomeComponent implements OnInit {
 
   inputReddit = "";
   from = "";
+  showCursor1 = true;
+  @ViewChild('targetSection1') targetSection1: ElementRef;
+  @ViewChild('targetSection2') targetSection2: ElementRef;
+  @ViewChild('targetSection3') targetSection3: ElementRef;
   to = "";
   data:any;
-  fileUrl = 'assets/VenkataSriHarshaMaddiralaResume.pdf';
-  fileName = 'Venkata Sri Harsha Resume.pdf'
+  fileUrl = 'assets/HarshaMaddiralaResume.pdf';
+  fileName = 'HarshaResume.pdf'
   fromDate:any;
   toDate:any;
   done = false;
@@ -45,6 +44,21 @@ export class HomeComponent implements OnInit {
   faDownload = faDownload;
   isCall = false;
   wordDict: any;
+  textToType1 = "Hello there, I'm Harsha Maddirala";
+  textToType2 = "Graduate CS Student | Software Developer";
+  aboutMeText = `A long time ago in a galaxy far, far away... A long time ago in a galaxy far, far away...
+
+  In a city known as Dallas, in the state of Texas, a journey of knowledge and ambition began. A young and determined individual set forth on a path of learning. This individual, with a passion for technology and innovation, embarked on a mission to master the realm of Computer Science.
+  
+  Under the banner of UT Dallas, the seeker of wisdom, armed with perseverance and dedication, joined the hallowed halls of academia. The academic year of 2022 brought new challenges and opportunities, and our hero embraced them with unwavering resolve.
+  
+  But this journey was not the first of its kind. In a distant land named Bangalore, India, our hero had previously ventured into the realm of professional software engineering. In the vibrant world of a growth startup named ShopConnect, a product was forged— a beacon of e-commerce. Our hero, a vital cog in the development engine, contributed tirelessly to the creation of this digital marketplace.
+  
+  Days turned into months, and months into years. With each passing moment, experience was gained, friendships formed, and skills honed. The lessons from ShopConnect were etched into the annals of the hero's journey.
+  
+  Now, with the year 2024 looming on the horizon, the time has come for our protagonist to take the next step. Master's degree is within reach. Armed with newfound knowledge, experience, and aspirations, the hero gazes towards the future. He is looking for your help in his quest towards triumph.`;
+
+  animationDone = false
   maximum = 500;
   currPositiveTweets:any = [];
   currNegativeTweets:any = [];
@@ -53,9 +67,7 @@ export class HomeComponent implements OnInit {
   countError = false;
   @Input() type!: string;
   nodeURL = 'https://serverless-tweet.azurewebsites.net/api/HttpTrigger3?code=7J111qj4uroIibIKhVlrOnXLA6IWqu2kPCj7IGL_azqMAzFunK1Y2Q==';
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: false,
-  };
+  public pieChartOptions: any;
   public pieChartLabels = [ [ 'Negative'], [ 'Positive']];
   public pieChartDatasets = [ {
     data: [ 300, 500]
@@ -72,6 +84,7 @@ export class HomeComponent implements OnInit {
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   };
+  animated = false;
   minDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   maxDate = new Date();
   toMinDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -79,6 +92,55 @@ export class HomeComponent implements OnInit {
   constructor(    private http: HttpClient,private homeService: HomeService) { }
 
   ngOnInit(): void {  
+    
+  this.homeService.run.subscribe(data => {
+    this.ngAfterViewInit();
+  });
+  }
+  onScroll() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const triggerPoint = 300; // Adjust as needed
+
+    if (scrollTop > triggerPoint && !this.animated) {
+      this.animated = true;
+      const crawlElement = document.querySelector('.crawl') as HTMLElement;
+      crawlElement.classList.add('crawl-animated');
+    } else if (scrollTop <= triggerPoint && this.animated) {
+      this.animated = false;
+      const crawlElement = document.querySelector('.crawl') as HTMLElement;
+      crawlElement.classList.remove('crawl-animated');
+    }
+  }
+
+  onAnimationDone(text: string) {
+    this.animationDone = true;
+    this.showCursor1 = false;
+  }
+  ngAfterViewInit() {
+    const whiteSpot = document.querySelector('.white-spot') as HTMLElement;
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+
+      if (scrollTop <= windowHeight) {
+        const scale = 1 + (scrollTop / windowHeight) * 20;
+        whiteSpot.style.width = `${scale * 100}px`;
+        whiteSpot.style.height = `${scale * 100}px`;
+      }
+    });
+  }
+
+  scrollToSection(id): void {
+    if (id === 1) {
+      this.targetSection1.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (id === 2) {
+      this.targetSection2.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (id === 3) {
+      this.targetSection3.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   getData(){
@@ -163,6 +225,14 @@ viewResume() {
 
   openLink(link:any){
     window.open(link, "_blank");
+  }
+
+  link(type:any){
+    if(type == 'linkedin'){
+      window.open('https://www.linkedin.com/in/sriharshamaddirala/', "_blank");
+    }else{
+      window.open('https://github.com/Sri-harsha99', "_blank");
+    }
   }
 
 }
