@@ -6,7 +6,7 @@ import {
   HttpParams,
 } from "@angular/common/http";
 import { HomeService } from '../home.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, windowWhen } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
@@ -118,13 +118,19 @@ export class HomeComponent implements OnInit {
   }
   ngAfterViewInit() {
     const whiteSpot = document.querySelector('.white-spot') as HTMLElement;
-
+    
     window.addEventListener('scroll', () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
-
+      const windowWidth = window.innerWidth;
+      console.log(whiteSpot.style.borderRadius)
       if (scrollTop <= windowHeight) {
         const scale = 1 + (scrollTop / windowHeight) * 20;
+        const borderRadiusScale = `${50 - (scrollTop / windowHeight)*50}%`;
+        whiteSpot.style.borderRadius = borderRadiusScale;
+        if(whiteSpot.style.width === ""){
+          whiteSpot.style.width = '0';
+        }
         whiteSpot.style.width = `${scale * 100}px`;
         whiteSpot.style.height = `${scale * 100}px`;
       }
