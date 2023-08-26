@@ -1,0 +1,26 @@
+<!-- <div>
+    <input [(ngModel)]="displayName" placeholder="Your Display Name" />
+    <textarea [(ngModel)]="message" placeholder="Type your message"></textarea>
+    <label for="recipient">Recipient:</label>
+    <mat-select id="recipient" [(value)]="selectedRecipient">
+      <mat-option value="all">All Users</mat-option>
+      <mat-option *ngFor="let user of users" value="user">{{ user }}</mat-option>
+    </mat-select>
+    <button (click)="sendMessage()">Send</button>
+</div>
+
+<div *ngFor="let message of socketService.messages">
+    <div>{{ message.displayName }}: {{ message.message }}</div>
+</div>
+
+<div *ngFor="let obj of socketService.onlineUsers">
+  <ul>
+    <li *ngFor="let key of getKeys(obj)">
+      Key: {{ key }}, Value: {{ obj[key] }}
+      <textarea [(ngModel)]="message" placeholder="Type your message"></textarea>
+    </li>
+  </ul>
+</div>
+
+<button (click)="test()">test</button>
+<button (click)="join()">join</button> -->

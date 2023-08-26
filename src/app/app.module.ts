@@ -45,12 +45,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MiniPlayerComponent } from './mini-player/mini-player.component';
 import { TypingEffectDirective } from './typing-effect.directive';
 import { TypingAnimationComponent } from './typing-animation/typing-animation.component';
-import { ModelViewerComponent } from './model-viewer/model-viewer.component'
+import { ModelViewerComponent } from './model-viewer/model-viewer.component';
+import { ChatHomeComponent } from './chat-home/chat-home.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    ChatHomeComponent,
     MiniPlayerComponent,
     TypingEffectDirective,
     TypingAnimationComponent,
