@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
+import { SignalingService } from '../signaling.service';
 
 @Component({
   selector: 'app-chat-home',
@@ -7,34 +8,61 @@ import { SocketService } from '../socket.service';
   styleUrls: ['./chat-home.component.scss']
 })
 export class ChatHomeComponent implements OnInit {
-  // displayName: string = '';
-  // message: string = '';
-  // selectedRecipient; // Default: send to all users
-  // users: string[] = [];
+  displayName: string = '';
+  @ViewChild('remoteVideo') remoteVideo: ElementRef;
+  message: string = '';
+  selectedRecipient; // Default: send to all users
+  users: string[] = [];
   
-  // constructor(public socketService: SocketService) {}
+  constructor(public socketService: SocketService,
+              private signalingService: SignalingService) {}
 
 
   ngOnInit(): void {
-    // this.socketService.getUsers().subscribe(users => {
-    //   this.users = users;
-    // });
+    this.socketService.getUsers().subscribe(users => {
+      this.users = users;
+    });
+    this.signalingService
+      .getMessages()
+      .subscribe((payload) => this._handleMessage(payload));
   }
-  // changeChat(selectedUser){
-  //   this.selectedRecipient = selectedUser;
-  // }
 
-  // test(){
-  //   this.socketService.test();
-  // }
-  // join(){
-  //   this.socketService.joinUser(this.displayName);
-  // }
+  public async makeCall(): Promise<void> {
+    await this.socketService.makeCall(this.remoteVideo);
+  }
+  private async _handleMessage(data): Promise<void> {
+    switch (data.type) {
+      case 'offer':
+        await this.socketService.handleOffer(data.offer, this.remoteVideo);
+        break;
 
-  // sendMessage() {
-  //   if (this.message.trim() !== '') {
-  //     this.socketService.sendMessage(this.message, this.displayName, this.selectedRecipient);
-  //     this.message = '';
-  //   }
-  // }
+      case 'answer':
+        await this.socketService.handleAnswer(data.answer);
+        break;
+
+      case 'candidate':
+        this.socketService.handleCandidate(data.candidate);
+        break;
+
+      default:
+        break;
+    }
+  }
+  changeChat(selectedUser){
+    this.selectedRecipient = selectedUser;
+  }
+
+  test(){
+    this.socketService.test();
+  }
+  join(){
+    this.socketService.joinUser(this.displayName);
+  }
+
+  sendMessage() {
+    if (this.message.trim() !== '') {
+      this.socketService.sendMessage(this.message, this.displayName, this.selectedRecipient);
+      this.message = '';
+    }
+  }
 }

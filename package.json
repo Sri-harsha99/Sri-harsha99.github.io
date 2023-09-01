@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "ngx-material-timepicker": "^5.5.3",
     "ngx-mzd-timeline": "^1.0.3",
+    "ngx-socket-io": "^4.5.1",
     "rxjs": "~7.5.0",
     "socket-io": "^1.0.0",
     "socket.io-client": "^4.7.2",

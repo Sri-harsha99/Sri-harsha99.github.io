@@ -47,7 +47,9 @@ import { TypingEffectDirective } from './typing-effect.directive';
 import { TypingAnimationComponent } from './typing-animation/typing-animation.component';
 import { ModelViewerComponent } from './model-viewer/model-viewer.component';
 import { ChatHomeComponent } from './chat-home/chat-home.component'
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,7 +108,8 @@ import { ChatHomeComponent } from './chat-home/chat-home.component'
     MatGridListModule,
     MatBottomSheetModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]
